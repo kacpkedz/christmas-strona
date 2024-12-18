@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="ikona.png" type="image/png">
+    <title>100 powodów</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #ffebf0, #ffe3ec);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        header {
+            background-color: #ff85a2;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 2.5em;
+            font-family: 'Dancing Script', cursive;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        footer {
+            background-color: #ff85a2;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            font-family: 'Dancing Script', cursive;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        footer .text {
+            text-align: right;
+            margin-right: 10px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            padding-top: 100px;
+            box-sizing: border-box;
+        }
+        .reason-card {
+            background: white;
+            border: 2px solid #ff85a2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            margin-top: -40px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-size: 1.8em;
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        .navigation {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        .button {
+            background-color: #ff85a2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-family: 'Roboto', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .button:hover {
+            background-color: #ff6d89;
+            transform: scale(1.05);
+        }
+        .countdown {
+            font-size: 2em;
+            margin-top: 30px;
+            font-family: 'Dancing Script', cursive;
+            color: #ff6d89;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .loading-overlay.hidden {
+            display: none;
+        }
+        .heart-loader {
+            width: 50px;
+            height: 50px;
+            background-color: #ff85a2;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -25px;
+            margin-left: -40px;
+            animation: beat 1s infinite;
+        }
+        .heart-loader:before,
+        .heart-loader:after {
+            content: "";
+            width: 50px;
+            height: 50px;
+            background-color: #ff85a2;
+            position: absolute;
+            border-radius: 50%;
+        }
+        .heart-loader:before {
+            top: -25px;
+            left: 0;
+        }
+        .heart-loader:after {
+            left: 25px;
+            top: 0;
+        }
+        @keyframes beat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1.5em;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="heart-loader"></div>
+    </div>
+    <header>
+        100 powodów, dla których Cię kocham
+    </header>
+    <div class="container">
+        <div class="reason-card active" id="reason-card">
+            <p class="reason-text" id="reason-text">Powód 1: Jesteś moim światłem w najciemniejszych chwilach.</p>
+        </div>
+        <div class="navigation">
+            <button class="button" id="prev-button">Poprzedni</button>
+            <button class="button" id="random-button">Losowy</button>
+            <button class="button" id="next-button">Następny</button>
+        </div>
+        <div class="countdown" id="countdown">
+            Pozostało: 0 dni, 0 godzin, 0 minut, 0 sekund
+        </div>
+    </div>
+
+    <script>
+        const reasons = [
+            "Jesteś moim światłem w najciemniejszych chwilach.",
+            "Twoje oczy mają najpiękniejszy blask, jaki kiedykolwiek widziałem.",
+            "Potrafisz mnie rozśmieszyć, nawet gdy mam zły dzień.",
+            "Twój uśmiech rozjaśnia każdą chwilę.",
+            "Twoja dobroć inspiruje mnie każdego dnia.",
+            "Każdy dzień z Tobą jest jak prezent.",
+            "Uwielbiam, jak troszczysz się o innych.",
+            "Twoja determinacja motywuje mnie do działania.",
+            "Jesteś najpiękniejszą osobą, jaką znam – wewnątrz i na zewnątrz.",
+            "Każde wspomnienie z Tobą jest bezcenne."
+        ];
+
+        let currentReason = 0;
+        const reasonCard = document.getElementById('reason-card');
+        const reasonText = document.getElementById('reason-text');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const randomButton = document.getElementById('random-button');
+        const countdownElement = document.getElementById('countdown');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        function updateReason(direction) {
+            if (direction === 'next') {
+                currentReason = (currentReason + 1) % reasons.length;
+            } else if (direction === 'prev') {
+                currentReason = (currentReason - 1 + reasons.length) % reasons.length;
+            } else if (direction === 'random') {
+                currentReason = Math.floor(Math.random() * reasons.length);
+            }
+            reasonText.textContent = `Powód ${currentReason + 1}: ${reasons[currentReason]}`;
+        }
+
+        function updateCountdown() {
+            const targetDate = new Date('2025-03-11T00:00:00');
+            const now = new Date();
+            const difference = targetDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((difference / (1000 * 60)) % 60);
+                const seconds = Math.floor((difference / 1000) % 60);
+                countdownElement.textContent = `Do rocznicy pozostało: ${days} dni, ${hours} godzin, ${minutes} minut, ${seconds} sekund`;
+            } else {
+                countdownElement.textContent = "To już dzisiaj! ❤️";
+            }
+        }
+
+        prevButton.addEventListener('click', () => updateReason('prev'));
+        nextButton.addEventListener('click', () => updateReason('next'));
+        randomButton.addEventListener('click', () => updateReason('random'));
+
+        setInterval(updateCountdown, 1000);
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingOverlay.classList.add('hidden');
+            }, 2000);
+        });
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.fontSize = Math.random() * 1.5 + 1 + 'em';
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 200);
+    </script>
+    <footer>
+        <div class="text">24.12.2024r. - od Kacpra</div>
+    </footer>
+</body>
+</html>
