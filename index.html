@@ -7,6 +7,11 @@
     <title>100 powodów</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -17,88 +22,61 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
             position: relative;
         }
-        header {
+        header, footer {
             background-color: #ff85a2;
             color: white;
             text-align: center;
-            padding: 20px 10px;
-            font-size: 2.5em;
-            font-family: 'Dancing Script', cursive;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
             position: fixed;
-            top: 0;
             z-index: 1000;
+            padding: 15px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            top: 0;
+            font-size: 2em;
         }
         footer {
-            background-color: #ff85a2;
-            color: white;
-            padding: 10px 20px;
-            font-size: 1.5em;
-            font-family: 'Dancing Script', cursive;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            position: fixed;
             bottom: 0;
-            z-index: 1000;
+            font-size: 1.2em;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        footer .text {
-            text-align: right;
-            margin-right: 10px;
-        }
         .container {
+            flex: 1;
+            width: 100%;
+            padding: 120px 10px 80px;
+            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            width: 100%;
-            padding-top: 100px;
-            box-sizing: border-box;
+            text-align: center;
         }
         .reason-card {
             background: white;
             border: 2px solid #ff85a2;
             border-radius: 10px;
             padding: 20px;
-            margin: 20px;
-            margin-top: -40px;
-            width: 80%;
-            max-width: 600px;
+            margin: 10px 0;
+            width: 90%;
+            max-width: 400px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            font-size: 1.8em;
+            font-size: 1.5em;
             font-family: 'Dancing Script', cursive;
-            position: relative;
-            overflow: hidden;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
-            background-size: cover;
-            background-position: center;
-        }
-        .navigation {
-            margin-top: 20px;
-            display: flex;
-            gap: 20px;
         }
         .button {
             background-color: #ff85a2;
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            font-family: 'Roboto', sans-serif;
+            padding: 10px 20px;
+            font-size: 1em;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
         }
@@ -107,9 +85,8 @@
             transform: scale(1.05);
         }
         .countdown {
-            font-size: 2em;
-            margin-top: 30px;
-            font-family: 'Dancing Script', cursive;
+            font-size: 1.5em;
+            margin-top: 20px;
             color: #ff6d89;
         }
         .loading-overlay {
@@ -134,8 +111,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            margin-top: -25px;
-            margin-left: -40px;
+            margin: -25px 0 0 -25px;
             animation: beat 1s infinite;
         }
         .heart-loader:before,
@@ -163,22 +139,25 @@
                 transform: scale(1.2);
             }
         }
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: white;
-            font-size: 1.5em;
-            pointer-events: none;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 1;
+        @media (max-width: 768px) {
+            header {
+                font-size: 1.8em;
+                padding: 10px;
             }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
+            footer {
+                font-size: 1em;
+                padding: 10px;
+            }
+            .reason-card {
+                font-size: 1.2em;
+                padding: 15px;
+            }
+            .button {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+            .countdown {
+                font-size: 1.2em;
             }
         }
     </style>
@@ -203,7 +182,9 @@
             Pozostało: 0 dni, 0 godzin, 0 minut, 0 sekund
         </div>
     </div>
-
+    <footer>
+        <div class="text">24.12.2024r. - od Kacpra</div>
+    </footer>
     <script>
         const reasons = [
             "Jesteś moim światłem w najciemniejszych chwilach.",
@@ -217,7 +198,6 @@
             "Jesteś najpiękniejszą osobą, jaką znam – wewnątrz i na zewnątrz.",
             "Każde wspomnienie z Tobą jest bezcenne."
         ];
-
         let currentReason = 0;
         const reasonCard = document.getElementById('reason-card');
         const reasonText = document.getElementById('reason-text');
@@ -226,7 +206,6 @@
         const randomButton = document.getElementById('random-button');
         const countdownElement = document.getElementById('countdown');
         const loadingOverlay = document.getElementById('loading-overlay');
-
         function updateReason(direction) {
             if (direction === 'next') {
                 currentReason = (currentReason + 1) % reasons.length;
@@ -237,12 +216,10 @@
             }
             reasonText.textContent = `Powód ${currentReason + 1}: ${reasons[currentReason]}`;
         }
-
         function updateCountdown() {
             const targetDate = new Date('2025-03-11T00:00:00');
             const now = new Date();
             const difference = targetDate - now;
-
             if (difference > 0) {
                 const days = Math.floor(difference / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
@@ -253,19 +230,15 @@
                 countdownElement.textContent = "To już dzisiaj! ❤️";
             }
         }
-
         prevButton.addEventListener('click', () => updateReason('prev'));
         nextButton.addEventListener('click', () => updateReason('next'));
         randomButton.addEventListener('click', () => updateReason('random'));
-
         setInterval(updateCountdown, 1000);
-
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingOverlay.classList.add('hidden');
             }, 2000);
         });
-
         function createSnowflake() {
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
@@ -274,16 +247,11 @@
             snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
             snowflake.style.fontSize = Math.random() * 1.5 + 1 + 'em';
             document.body.appendChild(snowflake);
-
             setTimeout(() => {
                 snowflake.remove();
             }, 5000);
         }
-
         setInterval(createSnowflake, 200);
     </script>
-    <footer>
-        <div class="text">24.12.2024r. - od Kacpra</div>
-    </footer>
 </body>
 </html>
