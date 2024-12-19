@@ -235,7 +235,7 @@
             } else if (direction === 'random') {
                 currentReason = Math.floor(Math.random() * reasons.length);
             }
-            reasonText.textContent = Powód ${currentReason + 1}: ${reasons[currentReason]};
+            reasonText.textContent = `Powód ${currentReason + 1}: ${reasons[currentReason]}`;
         }
 
         function updateCountdown() {
@@ -248,7 +248,7 @@
                 const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
                 const minutes = Math.floor((difference / (1000 * 60)) % 60);
                 const seconds = Math.floor((difference / 1000) % 60);
-                countdownElement.textContent = Do rocznicy pozostało: ${days} dni, ${hours} godzin, ${minutes} minut, ${seconds} sekund;
+                countdownElement.textContent = `Do rocznicy pozostało: ${days} dni, ${hours} godzin, ${minutes} minut, ${seconds} sekund`;
             } else {
                 countdownElement.textContent = "To już dzisiaj! ❤️";
             }
