@@ -7,10 +7,15 @@
     <title>100 powodów</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+        body {
             font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
             background: linear-gradient(to bottom, #ffebf0, #ffe3ec);
             color: #333;
             display: flex;
@@ -21,70 +26,50 @@
             overflow-x: hidden;
             position: relative;
         }
-
-        header {
+        header, footer {
             background-color: #ff85a2;
             color: white;
             text-align: center;
+            width: 100%;
+            position: fixed;
+            z-index: 1000;
             padding: 15px 10px;
-            font-size: 2em;
-            font-family: 'Dancing Script', cursive;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            position: fixed;
-            top: 0;
-            z-index: 1000;
         }
-
+        header {
+            top: 0;
+            font-size: 2em;
+        }
         footer {
-            background-color: #ff85a2;
-            color: white;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            font-family: 'Dancing Script', cursive;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            position: fixed;
             bottom: 0;
-            z-index: 1000;
+            font-size: 1.2em;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         .container {
+            flex: 1;
             width: 100%;
-            max-width: 600px;
-            padding: 100px 20px 80px;
+            padding: 120px 10px 80px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
         }
-
         .reason-card {
             background: white;
             border: 2px solid #ff85a2;
             border-radius: 10px;
             padding: 20px;
-            margin: 20px auto;
-            width: 100%;
+            margin: 10px 0;
+            width: 90%;
             max-width: 400px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             font-size: 1.5em;
             font-family: 'Dancing Script', cursive;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
         }
-
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
         .button {
             background-color: #ff85a2;
             color: white;
@@ -92,48 +77,43 @@
             border-radius: 5px;
             padding: 10px 20px;
             font-size: 1em;
-            font-family: 'Roboto', sans-serif;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
         }
-
         .button:hover {
             background-color: #ff6d89;
             transform: scale(1.05);
         }
-
         .countdown {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-top: 20px;
-            font-family: 'Dancing Script', cursive;
             color: #ff6d89;
         }
-
         .loading-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 1);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
         }
-
         .loading-overlay.hidden {
             display: none;
         }
-
         .heart-loader {
             width: 50px;
             height: 50px;
             background-color: #ff85a2;
-            position: relative;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -25px 0 0 -25px;
             animation: beat 1s infinite;
         }
-
         .heart-loader:before,
         .heart-loader:after {
             content: "";
@@ -143,17 +123,14 @@
             position: absolute;
             border-radius: 50%;
         }
-
         .heart-loader:before {
             top: -25px;
             left: 0;
         }
-
         .heart-loader:after {
             left: 25px;
             top: 0;
         }
-
         @keyframes beat {
             0%, 100% {
                 transform: scale(1);
@@ -162,24 +139,25 @@
                 transform: scale(1.2);
             }
         }
-
         @media (max-width: 768px) {
-            header, footer {
-                font-size: 1.5em;
+            header {
+                font-size: 1.8em;
                 padding: 10px;
             }
-
+            footer {
+                font-size: 1em;
+                padding: 10px;
+            }
             .reason-card {
                 font-size: 1.2em;
+                padding: 15px;
             }
-
             .button {
-                padding: 8px 15px;
                 font-size: 0.9em;
+                padding: 8px 15px;
             }
-
             .countdown {
-                font-size: 1em;
+                font-size: 1.2em;
             }
         }
     </style>
@@ -188,19 +166,25 @@
     <div class="loading-overlay" id="loading-overlay">
         <div class="heart-loader"></div>
     </div>
-    <header>100 powodów, dla których Cię kocham</header>
+    <header>
+        100 powodów, dla których Cię kocham
+    </header>
     <div class="container">
-        <div class="reason-card" id="reason-card">
-            <p id="reason-text">Powód 1: Jesteś moim światłem w najciemniejszych chwilach.</p>
+        <div class="reason-card active" id="reason-card">
+            <p class="reason-text" id="reason-text">Powód 1: Jesteś moim światłem w najciemniejszych chwilach.</p>
         </div>
         <div class="navigation">
             <button class="button" id="prev-button">Poprzedni</button>
             <button class="button" id="random-button">Losowy</button>
             <button class="button" id="next-button">Następny</button>
         </div>
-        <div class="countdown" id="countdown"></div>
+        <div class="countdown" id="countdown">
+            Pozostało: 0 dni, 0 godzin, 0 minut, 0 sekund
+        </div>
     </div>
-    <footer>24.12.2024r. - od Kacpra</footer>
+    <footer>
+        <div class="text">24.12.2024r. - od Kacpra</div>
+    </footer>
     <script>
         const reasons = [
             "Jesteś moim światłem w najciemniejszych chwilach.",
@@ -214,19 +198,24 @@
             "Jesteś najpiękniejszą osobą, jaką znam – wewnątrz i na zewnątrz.",
             "Każde wspomnienie z Tobą jest bezcenne."
         ];
-
         let currentReason = 0;
+        const reasonCard = document.getElementById('reason-card');
         const reasonText = document.getElementById('reason-text');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const randomButton = document.getElementById('random-button');
         const countdownElement = document.getElementById('countdown');
         const loadingOverlay = document.getElementById('loading-overlay');
-
         function updateReason(direction) {
-            if (direction === 'next') currentReason = (currentReason + 1) % reasons.length;
-            else if (direction === 'prev') currentReason = (currentReason - 1 + reasons.length) % reasons.length;
-            else currentReason = Math.floor(Math.random() * reasons.length);
+            if (direction === 'next') {
+                currentReason = (currentReason + 1) % reasons.length;
+            } else if (direction === 'prev') {
+                currentReason = (currentReason - 1 + reasons.length) % reasons.length;
+            } else if (direction === 'random') {
+                currentReason = Math.floor(Math.random() * reasons.length);
+            }
             reasonText.textContent = `Powód ${currentReason + 1}: ${reasons[currentReason]}`;
         }
-
         function updateCountdown() {
             const targetDate = new Date('2025-03-11T00:00:00');
             const now = new Date();
@@ -241,16 +230,28 @@
                 countdownElement.textContent = "To już dzisiaj! ❤️";
             }
         }
-
-        document.getElementById('prev-button').addEventListener('click', () => updateReason('prev'));
-        document.getElementById('next-button').addEventListener('click', () => updateReason('next'));
-        document.getElementById('random-button').addEventListener('click', () => updateReason('random'));
-
+        prevButton.addEventListener('click', () => updateReason('prev'));
+        nextButton.addEventListener('click', () => updateReason('next'));
+        randomButton.addEventListener('click', () => updateReason('random'));
         setInterval(updateCountdown, 1000);
-
         window.addEventListener('load', () => {
-            setTimeout(() => loadingOverlay.classList.add('hidden'), 2000);
+            setTimeout(() => {
+                loadingOverlay.classList.add('hidden');
+            }, 2000);
         });
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.fontSize = Math.random() * 1.5 + 1 + 'em';
+            document.body.appendChild(snowflake);
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+        setInterval(createSnowflake, 200);
     </script>
 </body>
 </html>
